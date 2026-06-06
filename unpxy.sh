@@ -8,6 +8,18 @@ unpxy() {
     while [[ $# -gt 0 ]]; do
         case "$1" in
             -p) use_eval=1; shift ;;
+            -h|--help)
+                cat <<'EOF'
+Usage: unpxy [-p] [--] <command>
+Run a command without proxy environment variables.
+
+Options:
+  -p          Evaluate arguments as a shell expression (for pipelines, builtins)
+  --          End of options; everything after is treated as the command
+  -h, --help  Show this help message
+EOF
+                return 0
+                ;;
             --) shift; break ;;
             -*) echo "unpxy: unknown option: $1" >&2; return 1 ;;
             *) break ;;
