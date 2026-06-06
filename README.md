@@ -33,12 +33,16 @@ source /path/to/unpxy.fish
 ## Usage
 
 ```text
-unpxy [-p] [--] <command>
+unpxy [-p] [-h] [--] <command>
 ```
 
-- `-p` – evaluate the remaining arguments as a shell expression (needed for pipelines, redirects, etc.)
-- `--` – explicitly mark the end of options; everything after it is treated as the command
-- Unknown flags (e.g. `-x`) cause an error message and exit code 1
+### Options
+
+| Option       | Description                                                              |
+|--------------|--------------------------------------------------------------------------|
+| `-p`         | Evaluate the remaining arguments as a shell expression. Use this when you need pipelines, redirects, or shell builtins. |
+| `-h`, `--help` | Show a help message and exit successfully.                               |
+| `--`         | Explicitly mark the end of options; everything after is treated as the command (useful if the command starts with a dash). |
 
 ### Single command
 ```bash
