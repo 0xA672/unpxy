@@ -41,16 +41,16 @@ The command runs immediately in a proxy‑free subshell.
 ### Piping multiple commands (Bash / Zsh)
 When you need an entire pipeline to ignore the proxy, use the `-p` flag and quote the full pipeline as a single string:
 ```bash
-unpxy -p ‘curl -fsSL https://example.com/script.sh | bash’
+unpxy -p "curl -fsSL https://example.com/script.sh | bash"
 ```
 This ensures both the download and the execution of the script happen inside the same clean environment.
 
 ### Piping multiple commands (Fish)
 Fish users can pass the pipeline in the same way, or split arguments naturally (fish’s `eval` joins them):
 ```fish
-unpxy -p curl -fsSL https://example.com/script.sh ‘|’ bash
+unpxy -p curl -fsSL https://example.com/script.sh "|" bash
 # or as a single string
-unpxy -p ‘curl -fsSL https://example.com/script.sh | bash’
+unpxy -p "curl -fsSL https://example.com/script.sh | bash"
 ```
 
 ### Error handling
