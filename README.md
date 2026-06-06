@@ -31,15 +31,39 @@ source /path/to/unpxy.fish
 ```
 
 ## Usage
+
+### Single command
 ```bash
-unpxy <any-command>
+unpxy curl -fsSL https://example.com/script.sh
+```
+The command runs immediately in a proxy‑free subshell.
+
+### Piping multiple commands (Bash / Zsh)
+When you need an entire pipeline to ignore the proxy, use the `-p` flag and quote the full pipeline as a single string:
+```bash
+unpxy -p 'curl -fsSL https://example.com/script.sh | bash'
+```
+This ensures both the download and the execution of the script happen inside the same clean environment.
+
+### Piping multiple commands (Fish)
+Fish users can pass the pipeline in the same way, or split arguments naturally (fish’s `eval` joins them):
+```fish
+unpxy -p curl -fsSL https://example.com/script.sh '|' bash
+# or as a single string
+unpxy -p 'curl -fsSL https://example.com/script.sh | bash'
 ```
 
 ## How it works
-* Creates a subshell (using parentheses)
-* Unsets common proxy variables in that subshell
-* Executes your command with `exec "$@"`
-* After the command finishes, the subshell exits and your parent shell keeps its original proxy settings
+
+* **Single command mode** (no `-p`):  
+  Creates a subshell with `(...)`, unsets common proxy variables inside that subshell, and then replaces the subshell with your command via `exec "$@"`.  
+  The parent shell’s proxy settings remain untouched.
+
+* **Pipeline mode** (`-p`):  
+  Also opens a subshell, unsets all proxy variables there, and then passes the quoted pipeline string to `eval`.  
+  This allows complex shell syntax (pipes, redirects, command lists) to run entirely inside the proxy‑free environment.
+
+After the command finishes, the subshell exits and your original shell environment is exactly as before.
 
 ## License
 
