@@ -10,6 +10,17 @@ function unpxy --description 'Run a command without proxy environment variables'
             case -p
                 set use_eval 1
                 set -e argv[1]
+            case -h --help
+                cat <<'EOF'
+Usage: unpxy [-p] [--] <command>
+Run a command without proxy environment variables.
+
+Options:
+  -p          Evaluate arguments as a shell expression (for pipelines, builtins)
+  --          End of options; everything after is treated as the command
+  -h, --help  Show this help message
+EOF
+                return 0
             case --
                 set -e argv[1]
                 break
