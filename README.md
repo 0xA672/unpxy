@@ -32,6 +32,14 @@ source /path/to/unpxy.fish
 
 ## Usage
 
+```text
+unpxy [-p] [--] <command>
+```
+
+- `-p` – evaluate the remaining arguments as a shell expression (needed for pipelines, redirects, etc.)
+- `--` – explicitly mark the end of options; everything after it is treated as the command
+- Unknown flags (e.g. `-x`) cause an error message and exit code 1
+
 ### Single command
 ```bash
 unpxy curl -fsSL https://example.com/script.sh
@@ -57,7 +65,13 @@ unpxy -p "curl -fsSL https://example.com/script.sh | bash"
 Calling `unpxy` without arguments prints a usage message and returns exit code 1:
 ```bash
 unpxy
-# Usage: unpxy [-p] <command>
+# Usage: unpxy [-p] [--] <command>
+```
+
+Passing an unknown option also results in an error:
+```bash
+unpxy -x echo hello
+# unpxy: unknown option: -x
 ```
 
 ## How it works
